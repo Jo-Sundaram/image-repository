@@ -29,4 +29,14 @@ export class ImagesController {
       const image = await this.imageService.findOne(params.id);
       res.status(HttpStatus.OK).send(image);
     }
+
+    @Get(':id/download')
+    @Bind(Res(), Param())
+    async download(res, params) {
+      const image = await this.imageService.findOne(params.id);
+      res.set({
+        'Content-Disposition': `attachment; filename="${image.originalname}"`,
+      })
+      res.status(HttpStatus.OK).send(image.buffer);
+    }
 }
