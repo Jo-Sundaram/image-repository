@@ -9,11 +9,19 @@ export class Image {
   originalname: string;
 
   @Prop({required: true})
+  name: string;
+
+  @Prop({required: false})
+  author: string;
+
+  @Prop({required: true})
   buffer: Buffer;
 
   @Prop({required: true})
   mimetype: string;
 
+  @Prop({required: true})
+  size: string;
 
 }
 

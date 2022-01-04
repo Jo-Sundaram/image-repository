@@ -8,8 +8,8 @@ import { Image, ImageDocument } from './images.schema';
 export class ImagesService {
     constructor(@InjectModel(Image.name) private imageModel: Model<ImageDocument>) {}
 
-    async create(image): Promise<Image> {
-        const createdImage = new this.imageModel(image)
+    async create(fileBody, fields): Promise<Image> {
+        const createdImage = new this.imageModel({...fileBody, ...fields})
         return createdImage.save();
       }
 
