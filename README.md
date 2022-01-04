@@ -24,7 +24,7 @@
 
 ## Description
 
-An Image Repository api built using [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository. This api allows uers to upload, retreive and download images!
+An Image Repository api built using [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository. This api allows users to upload, retrieve and download images!
 
 ## Installation
 
