@@ -1,5 +1,7 @@
-import { Bind, Body, Controller, Get, HttpStatus, Param, Post, Res, UploadedFile, UseInterceptors, UsePipes } from '@nestjs/common';
+import { Bind, Body, Controller, Get, HttpStatus, Param, Post, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { pick } from 'src/utils/pick';
+import { ImageDTO } from './dto/image.dto';
 import { ImagesService } from './images.service';
 
 @Controller('images')
@@ -9,10 +11,12 @@ export class ImagesController {
     @Post('upload')
     // @UsePipes(new JoiValidationPipe(create))
     @UseInterceptors(FileInterceptor('file'))
-    @Bind(Res(), UploadedFile())
-    async uploadFile(res, file: Express.Multer.File) {
-      console.log(file);
-      const image = await this.imageService.create(file);
+    @Bind(Res(), Body(new ValidationPipe), UploadedFile())
+    async uploadFile(res, body: ImageDTO, file: Express.Multer.File) {
+      console.log(body);
+      const fileProperties = pick(file, ["originalname", "mimetype", "size", "buffer"])
+      const fields = pick(body, ["name", "author"])
+      const image = await this.imageService.create(fileProperties, fields);
       res.status(HttpStatus.CREATED).send(image);
     }
 
